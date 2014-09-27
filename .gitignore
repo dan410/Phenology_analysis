@@ -6,6 +6,14 @@
 
 # R data files from past sessions
 .Rdata
-
+.Rapp*
 # RStudio files
 .Rproj.user/
+
+
+### figures
+*.png
+*.pdf
+*.jpg
+*.jpeg
+*.eps

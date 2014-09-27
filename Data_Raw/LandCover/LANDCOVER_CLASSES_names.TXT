@@ -1,0 +1,48 @@
+Value	Class_name
+0	Sea
+1	Tropical Evergreen
+2	Subtropical Evergreen
+3	Temperate Broadleaved
+4	Tropical Montane
+5	Tropical Semievergreen
+6	Temperate Conifer
+7	Subtropical Conifer
+8	Tropical Moist Deciduous
+9	Tropical Dry Deciduous
+10	Junipers
+11	Mangroves
+12	Degraded Forest
+13	Dry Woodland
+14	Thorn Forest/Scrub (Northern)
+15	Thorn Forest/Scrub (Southern)
+16	Shrubs
+17	Abandoned Jhum
+18	Sparse woods
+19	Bush
+20	Coastal vegetation
+21	Savannah
+22	Plain Grasslands
+23	Slope Grasslands
+24	Desert Grasslands
+25	Alpine Meadow
+26	Alpine Grasslands
+27	Sparse vegetation (cold)
+28	Sparse vegetation (hot)
+29	Gobi
+30	Desert (cold)
+31	Thorn Scrub / Desert (hot)
+32	Irrigated Intensive Agriculture
+33	Irrigated Agriculture
+34	Slope Agriculture
+35	Rainfed Agriculture
+36	Current Jhum
+37	Swamp
+38	Coral reef
+39	Water Bodies
+40	Snow
+41	Barren
+42	Bare Rock
+43	Salt Pans
+44	Mud Flats
+45	Settlement
+46	No Data
