@@ -22,6 +22,8 @@ n_time <- nrow(dat3)/50
 dat3$time <- rep(1:n_time, each = 50)
 time_list <- dlply(dat3, .(time))
 
+#
+
 # creating data frame 
 mat <- matrix(0, nrow = 50*50*length(time_list), ncol = 4)
 count <- 1
@@ -48,9 +50,17 @@ dat3$ID <- rep(1:50^2, each = 46)
 ### include Land Cover 
 land_cover <- read.table(file.path("Data_Raw", "LandCover", "LC_data_subset_50by50.csv"), sep = ",")
 
+### read in proportion of land cover for class "Tripical Evergreen (1)" and "Tropical Semievergreen (5)"
+prop_tEvergreen <- read.table(file.path("Data_Raw", "LandCover","Proportions", "class1_proportion_south_50by50.csv"), sep = ",")
+prop_tSemievergreen <- read.table(file.path("Data_Raw", "LandCover","Proportions", "class5_proportion_south_50by50.csv"), sep = ",")
+
+### add variables to data frame
 dat3$LC <- -1
+dat$prop_tEvergreen <-  -1
 for(i in 1:nrow(dat3)){
 	dat3$LC[i] <- land_cover[dat3$locy[i], dat3$locx[i]]
+	dat3$prop_tEvergreen[i] <- prop_tEvergreen[dat3$locy[i], dat3$locx[i]]
+	dat3$prop_tSemievergreen[i] <- prop_tSemievergreen[dat3$locy[i], dat3$locx[i]]
 }
 
 # the orientation is up-side-down, this will give correct orientation
@@ -63,23 +73,8 @@ LC_info <- read.csv(file.path("Data_Raw", "LandCover", "LANDCOVER_CLASSES_names_
 dat3$LC <- factor(dat3$LC, levels <- LC_info$Value, labels = LC_info$Class_name)
 dat3$year <- year
 
-saveRDS(dat3, paste("Data/formatted_50by50_", year, ".rds", sep = ""))
+ saveRDS(dat3, paste("Data/formatted_50by50_", year, ".rds", sep = ""))
 
-
-# # creating data frame
-# new_dat <- data.frame(Time = rep(0, 50*50*length(time_list)), X = 0, locx = 0, locy=0)
-# for( tm in 1:length(time_list)){
-# 	for(j in 1:50){
-# 		for( k in 1:50){
-# 			val <- NULL
-# 			val$locx <- k
-# 			val$locy <- j
-# 			val$Time <- tm
-# 			val$X <- time_list[[tm]][j, k]
-# 			new_dat <- rbind(new_dat, val)
-# 		}
-# 	}
-# }
 
 
 
