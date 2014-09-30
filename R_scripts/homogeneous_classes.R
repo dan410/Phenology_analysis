@@ -16,6 +16,11 @@ LC_info <- read.csv(file.path("Data_Raw", "LandCover", "LANDCOVER_CLASSES_names_
 ############################################################################
 dat_LC_only <- dat[!duplicated(dat$ID), ] # pull off one row for each curve to look at land cover info
 
+ggplot(dat_LC_only, aes(x = locx, y = locy) ) + 
+geom_tile(aes(fill = LC)) + 
+scale_fill_manual(values = LC_info$color ) 
+# ggsave("Plots/LC.pdf", height = 5, width = 8)
+
 ### subset with homogeneous cells for tropical evergreen and tropical semievergreen
 dat_hom_LC <- filter(dat_LC_only,  prop_tEvergreen > 80 | prop_tSemievergreen > 80)
 
@@ -24,7 +29,7 @@ geom_tile(aes(fill = LC), alpha = 0.3) +
 scale_fill_manual(values = LC_info$color ) +
 geom_point(data = dat_hom_LC, aes(x = locx, y = locy, color = LC), size = 4, shape = 22)+
 scale_color_manual(values = c("chartreuse4", "chartreuse3"))
-
+# ggsave("Plots/LC_hom_Evergreen_Semievergreen.pdf", height = 5, width = 8)
 
 ### pull out the homogeneous data for tropical evergreen vegetation
 dat_hom_tEvergreen <- subset(dat, prop_tEvergreen > 80)
@@ -72,6 +77,8 @@ geom_point()
 ### plot the curves colored by cluster 
 ggplot(dat_cluster, aes(x = Time, y=X, group = ID, color = as.factor(cluster)))+
 geom_line()
+
+
 
 
 

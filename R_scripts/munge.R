@@ -9,7 +9,7 @@ library(dplyr)
 # set working directory
 setwd("~/Google Drive/Research/Projects/Phenology_analysis")
 
-year <- 2007
+year <- 2003
 
 dat <- read.table(file.path("Data_Raw", 
 "ChlIndex_Level1_Data", 
@@ -53,14 +53,37 @@ land_cover <- read.table(file.path("Data_Raw", "LandCover", "LC_data_subset_50by
 ### read in proportion of land cover for class "Tripical Evergreen (1)" and "Tropical Semievergreen (5)"
 prop_tEvergreen <- read.table(file.path("Data_Raw", "LandCover","Proportions", "class1_proportion_south_50by50.csv"), sep = ",")
 prop_tSemievergreen <- read.table(file.path("Data_Raw", "LandCover","Proportions", "class5_proportion_south_50by50.csv"), sep = ",")
-
+prop_coastal <- read.table(file.path("Data_Raw", "LandCover","Proportions", "class20_proportion_south_50by50.csv"), sep = ",")
+prop_moist_decid <- read.table(file.path("Data_Raw", "LandCover","Proportions", "class8_proportion_south_50by50.csv"), sep = ",")
+prop_irrig_intensive_ag <- read.table(file.path("Data_Raw", "LandCover","Proportions", "class32_proportion_south_50by50.csv"), sep = ",")
+prop_irrig_ag <- read.table(file.path("Data_Raw", "LandCover","Proportions", "class33_proportion_south_50by50.csv"), sep = ",")
+prop_slope_ag <- read.table(file.path("Data_Raw", "LandCover","Proportions", "class34_proportion_south_50by50.csv"), sep = ",")
+prop_rainfed_ag <- read.table(file.path("Data_Raw", "LandCover","Proportions", "class35_proportion_south_50by50.csv"), sep = ",")
+prop_barren <- read.table(file.path("Data_Raw", "LandCover","Proportions", "class41_proportion_south_50by50.csv"), sep = ",")
 ### add variables to data frame
 dat3$LC <- -1
-dat$prop_tEvergreen <-  -1
+dat3$prop_tEvergreen <-  -1
+dat3$prop_tSemievergreen <- -1
+dat3$prop_coastal <- -1
+dat3$prop_moist_decid <- -1
+dat3$prop_irrig_intensive_ag <- -1
+dat3$prop_irrig_ag <- -1
+dat3$prop_slope_ag <- -1
+dat3$prop_rainfed_ag <- -1
+dat3$prop_barren <- -1
+dat3$prop_ag <- -1
 for(i in 1:nrow(dat3)){
 	dat3$LC[i] <- land_cover[dat3$locy[i], dat3$locx[i]]
 	dat3$prop_tEvergreen[i] <- prop_tEvergreen[dat3$locy[i], dat3$locx[i]]
 	dat3$prop_tSemievergreen[i] <- prop_tSemievergreen[dat3$locy[i], dat3$locx[i]]
+	dat3$prop_coastal[i] <- prop_coastal[dat3$locy[i], dat3$locx[i]]
+	dat3$prop_moist_decid[i] <- prop_moist_decid[dat3$locy[i], dat3$locx[i]]
+	dat3$prop_irrig_intensive_ag[i] <- prop_irrig_intensive_ag[dat3$locy[i], dat3$locx[i]]
+	dat3$prop_irrig_ag[i] <- prop_irrig_ag[dat3$locy[i], dat3$locx[i]]
+	dat3$prop_slope_ag[i] <- prop_slope_ag[dat3$locy[i], dat3$locx[i]]
+	dat3$prop_rainfed_ag[i] <- prop_rainfed_ag[dat3$locy[i], dat3$locx[i]]
+	dat3$prop_barren[i] <- prop_barren[dat3$locy[i], dat3$locx[i]]
+  dat3$prop_ag[i] <- with(dat3, sum(c(prop_irrig_intensive_ag[i], prop_irrig_ag[i], prop_slope_ag[i], prop_rainfed_ag[i] )))
 }
 
 # the orientation is up-side-down, this will give correct orientation
