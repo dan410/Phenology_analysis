@@ -96,6 +96,22 @@ LC_info <- read.csv(file.path("Data_Raw", "LandCover", "LANDCOVER_CLASSES_names_
 dat3$LC <- factor(dat3$LC, levels <- LC_info$Value, labels = LC_info$Class_name)
 dat3$year <- year
 
+year <- "2007"
+dat3 <- readRDS(paste("Data/formatted_50by50_", year, ".rds", sep = ""))
+
+dat3$LC <- dat2003$LC
+dat3$prop_tEvergreen <- dat2003$prop_tEvergreen
+dat3$prop_tSemievergreen <- dat2003$tSemievergreen
+dat3$prop_coastal <- dat2003$prop_coastal
+dat3$prop_moist_decid <- dat2003$prop_moist_decid
+dat3$prop_irrig_intensive_ag <- dat2003$prop_irrig_intensive_ag
+dat3$prop_irrig_ag <- dat2003$prop_irrig_ag
+dat3$prop_slope_ag <- dat2003$prop_slope_ag
+dat3$prop_rainfed_ag <- dat2003$prop_rainfed_ag
+dat3$prop_barren <- dat2003$prop_barren
+dat3$prop_ag <- dat2003$prop_ag
+
+
  saveRDS(dat3, paste("Data/formatted_50by50_", year, ".rds", sep = ""))
 
 
