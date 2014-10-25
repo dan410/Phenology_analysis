@@ -12,7 +12,7 @@ sourceDir("/Users/fort002/Google Drive/Research/R_packages/spatialfda/R")
 # set working directory
 setwd("~/Google Drive/Research/Projects/Phenology_analysis")
 
-dat <- readRDS("Data/formatted_50by50_2003.rds")
+dat <- readRDS("Data/formatted_50by50_2007.rds")
 LC_info <- read.csv(file.path("Data_Raw", "LandCover", "LANDCOVER_CLASSES_names_50by50.csv"), header=TRUE, stringsAsFactors = FALSE)
 ############################################################################
 ### plot land cover map 
@@ -82,7 +82,8 @@ locs$ID <- NULL # drop the ID column
 # estimate the covariance function
 n.marginal.knots = 7
 cfit <- estimate_cov_function(dat_hom, n.marginal.knots = n.marginal.knots)
-save(cfit, dat_hom, n.marginal.knots, file = "Data/covfit_ag_2003.Rdata")
+# save(cfit, dat_hom, n.marginal.knots, file = "Data/covfit_ag_2006.Rdata")
+# load("Data/covfit_ag_2007.Rdata")
 
 # estimate the eigenfunctins of the covariance function
 eigen.fit <- estimate_eigenfunctions(cfit)
@@ -101,6 +102,14 @@ funlist <- list(f0 <- function(x){rep(1, length(x))},
 				f2 = extract_pcf(2, eigen.fit),
 				f3 = extract_pcf(3, eigen.fit)
 				) 
+
+# create a list from estimated eigenfunctions
+funlist <- list(f0 <- function(x){rep(1, length(x))},
+                f1 = extract_pcf(1, eigen.fit),
+                f2 = extract_pcf(2, eigen.fit),
+                f3 = extract_pcf(3, eigen.fit),
+                f4 = extract_pcf(4, eigen.fit)
+) 
 				
 ### plot PCFs
 xs <- seq(0,1, length = 1000)
@@ -133,6 +142,10 @@ dat_LC_cluster <- subset(dat, LC %in% c("Tropical Evergreen",
 
 dat_LC_cluster <- subset(dat, LC %in% c("Coastal vegetation",
                                         "Irrigated Agriculture"))
+
+dat_LC_cluster <- subset(dat, LC2 %in% c("Agriculture",
+                                        "Vegetation"))
+
 																				
 compute_coefs <- function(x, argvals, basis){
 	nfuns <- length(unique(x$ID))
@@ -146,10 +159,6 @@ compute_coefs <- function(x, argvals, basis){
 
 coefs <- ddply(dat_LC_cluster, .(LC), .fun = compute_coefs, argvals = argvals, basis = emp.basis)
 
-# create scatter plot of coefficients to identify clusters
-ggplot(subset(coefs, LC == "Coastal vegetation"), aes(x = V1, y = V2, label = ID)) + 
-  geom_point(aes(color = LC), size = 0.5) +
-  geom_text()
 
 ############################################################################
 ### plot possible misclassified points

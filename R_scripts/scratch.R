@@ -112,6 +112,9 @@ ggplot(dat2, aes(x = Time, y = X)) +
 # dat_hom <- subset(dat_hom, !(ID %in% outlier_2007))
 
 
+myfun <- function(x){funlist$f2(x)*funlist$f2(x)}
+
+
 
 
 
