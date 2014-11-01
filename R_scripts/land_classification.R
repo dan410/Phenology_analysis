@@ -236,7 +236,7 @@ fit <- lda(LC2 ~ V1 + V2 + V3 + V4, data=training)
 pred <- predict(fit, newdata=testing)
 testing$pred <- pred$class
 
-pred_lc_2003 <- merge(testing, dat_LC_cluster, by='ID')
+pred_lc <- merge(testing, dat_LC_cluster, by='ID')
 
 pred_lc_2003$year = 2003
 pred_lc_2004$year = 2004

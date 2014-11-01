@@ -6,6 +6,47 @@ library(ggplot2)
 # set working directory
 setwd("~/Google Drive/Research/Projects/Phenology_analysis")
 
+
+
+############################################################################
+### classify with logistic regression
+############################################################################
+head(training)
+head(testing)
+
+LC.fit <- glm(LC2 ~ V1 + V2 + V3 + V4, family = binomial(logit), data = training)
+
+LC.pred <- predict(LC.fit, newdata = testing[, 1:4], type = 'response')
+head(LC.pred)
+LC.pred2 <- rep("Agriculture", length = length(LC.pred))
+LC.pred2[LC.pred >=0] <- "Vegetation"
+LC.class <- data.frame(classified = LC.pred2)
+
+testing$pred_logistic <- LC.pred2
+testing$pred_probs <- LC.pred
+
+pred_lc$pred_probs <- LC.pred
+pred_lc$pred_cut <- cut(pred_lc$pred_probs, 5)
+
+ggplot(pred_lc, aes(x = locx, y = locy))+
+  geom_tile(aes(fill = LC2.x))+
+  geom_tile(data = subset(pred_lc, LC2.x == "Vegetation" & pred == "Agriculture"), aes(x = locx, y = locy), fill = 'red')+
+	geom_tile(data = subset(pred_lc, LC2.x == "Agriculture" & pred == "Vegetation"), aes(x = locx, y = locy), fill = 'green')+
+	labs(x='',y='', color = "predicted\nlandcover", fill = "GLC2000\nlandcover")
+	
+	ggplot(pred_lc, aes(x = locx, y = locy))+
+	  geom_tile(aes(fill = LC2.x))+
+	  geom_tile(data = subset(pred_lc, LC2.x == "Vegetation" & pred_logistic == "Agriculture"), aes(x = locx, y = locy), fill = 'red')+
+		geom_tile(data = subset(pred_lc, LC2.x == "Agriculture" & pred_logistic == "Vegetation"), aes(x = locx, y = locy), fill = 'green')+
+		labs(x='',y='', color = "predicted\nlandcover", fill = "GLC2000\nlandcover")
+		
+		ggplot(pred_lc, aes(x = locx, y = locy))+
+		  geom_tile(aes(fill = pred_cut))+
+			labs(x='',y='')
+############################################################################
+### 
+############################################################################
+
 LC_info <- read.csv(file.path("Data_Raw", "LandCover", "LANDCOVER_CLASSES_names_50by50.csv"), header=TRUE, stringsAsFactors = FALSE)
 dat <- readRDS("Data/formatted_50by50_2003.rds")
 
